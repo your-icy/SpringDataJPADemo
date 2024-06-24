@@ -9,20 +9,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Document
 @Table(name = "student_data", uniqueConstraints = {
         @UniqueConstraint(
                 name = "email_id_unique",
                 columnNames = "email_id"
-        ),
-        @UniqueConstraint(
-                name = "phone_number_unique",
-                columnNames = "phone_number"
         )
 }
 )
@@ -33,48 +31,42 @@ public class Student {
 
 
     @Id
-    @Column(name ="studentId" )
+    @Column(name ="studentId", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySequence1")
     private Long studentId;
 
-    @Column(name ="first_name" )
-    @NotBlank(message = "kindly enter your last name")
+    @Column(name ="first_name", nullable = false )
+//    @NotBlank(message = "kindly enter your last name")
     private String firstName;
 
-    @Column(name ="last_name" )
-    @NotBlank(message = "kindly enter your last name")
+    @Column(name ="last_name" ,nullable=false )
+//    @NotBlank(message = "kindly enter your last name")
     private String lastName;
 
 
-    @Column(name ="email_id" )
-    @Email(message = "Please enter a valid email")
+    @Column(name ="email_id", nullable = false)
     private String emailId;
 
 
-    @Column(name ="phone_number" )
-    @Pattern(regexp="(^$|[0-9]{10})")
-    private Long phoneNumber;
+    @Column(name ="phone_number" , nullable = false )
+    private String phoneNumber;
 
+/*
 
-    /*
+    @Column(name="guardian_name")
+//    @NotBlank(message = "please enter a gurdian name")
+    private String guardianName;
 
+    @Column(name="guardian_email")
+//    @NotBlank(message = "please enter an email id")
+    private String guardianEmail;
 
-    @Column(name="gurdian_name")
-    @NotBlank(message = "please enter a gurdian name")
-    private String gurdianName;
+    @Column(name="guardian_phone_number")
+//    @Pattern(regexp="(^$|[0-9]{10})")
+    private String guardianPhoneNumber;
 
-    @Column(name="gurdian_email")
-    @NotBlank(message = "please enter an email id")
-    private String gurdianEmail;
-
-    @Column(name="gurdian_phone_number")
-    @Pattern(regexp="(^$|[0-9]{10})")
-    private Long gurdianPhoneNumber;
-
-
-
-     */
+ */
 
     @Embedded
-    private Gurdian gurdian;
+    private Guardian guardian;
 }
